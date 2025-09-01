@@ -27,13 +27,14 @@ const pool = mysql.createPool({
 })
 
 app.get("/api/login", async (req, res) => {
-  try{
+  try {
     const [rows] = await pool.query("SELECT * FROM accounts");
-    res.json(rows)
-  }catch (err){
-    res.status(400).json({message: "Error for some reason"})
+    res.json(rows);
+  } catch (err) {
+    console.error("Database query failed:", err); // log the error
+    res.status(400).json({ message: "Database query failed", error: err.message });
   }
-})
+});
 
 export { pool };
 export default app;
