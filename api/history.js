@@ -11,8 +11,11 @@ app.use(express.json());
 app.use(cors({
   origin: "https://geofinder-rd.vercel.app",   
   methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
   credentials: true
 }));
+
+app.options("*", cors());
 
 const pool = mysql.createPool({
   host: process.env.HOST, 
