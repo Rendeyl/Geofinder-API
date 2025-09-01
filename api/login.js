@@ -30,6 +30,7 @@ async function test() {
   try{
         const [rows] = await pool.query("SELECT * FROM accounts");
         console.log(rows);
+        resizeBy.json(rows);
     }catch (err){
         console.log(err);
     }
