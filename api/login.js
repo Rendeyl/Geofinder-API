@@ -26,7 +26,7 @@ const pool = mysql.createPool({
   ssl: { rejectUnauthorized: false }
 })
 
-app.GET("/api/login", async (req, res) => {
+app.get("/api/login", async (req, res) => {
   try{
     const [rows] = await pool.query("SELECT * FROM accounts");
     res.json(rows)
