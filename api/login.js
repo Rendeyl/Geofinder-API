@@ -26,13 +26,18 @@ const pool = mysql.createPool({
   ssl: { rejectUnauthorized: false }
 })
 
-app.get("/api/login", async (req, res) => {
-  try {
-    const [rows] = await pool.query("SELECT * FROM accounts");
-    res.json({message: rows});
-  } catch (err) {
-    console.error("Database query failed:", err); // log the error
-    res.status(400).json({ message: "Database query failed", error: err.message });
+app.post("/api/login", async (req, res) => {
+  const { username, password } = req.body;
+  try{
+    const [rows] = await pool.query("SELECT username, password FROM accounts WHERE username = ? AND password = ?", [username, password]);
+
+    if(rows.length > 0){
+      res.json({message: "Login Succesfull!"});
+    }else{
+      res.status(400).json({message: "Invalid Login"});
+    }
+  }catch (err){
+    res.status(400).json({message: `Error: ${err}`})
   }
 });
 
