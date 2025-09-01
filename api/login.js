@@ -26,17 +26,14 @@ const pool = mysql.createPool({
   ssl: { rejectUnauthorized: false }
 })
 
-async function test() {
+app.post("/api/login", async (req, res) => {
   try{
-        const [rows] = await pool.query("SELECT * FROM accounts");
-        console.log(rows);
-        resizeBy.json(rows);
-    }catch (err){
-        console.log(err);
-    }
-}
-
-test()
+    const [rows] = await pool.query("SELECT * FROM accounts");
+    res.json(rows)
+  }catch (err){
+    res.status(400).json({message: "Error for some reason"})
+  }
+})
 
 export { pool };
 export default app;
