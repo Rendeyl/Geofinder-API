@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "https://anonymessagex.vercel.app",   
+  origin: "https://geofinder-rd.vercel.app/",   
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
