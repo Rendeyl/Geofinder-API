@@ -29,15 +29,24 @@ const pool = mysql.createPool({
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
   try{
-    const [rows] = await pool.query("SELECT username, password FROM accounts WHERE username = ? AND password = ?", [username, password]);
+    const [rows] = await pool.query("SELECT username, password FROM accounts WHERE username = ?", [username]);
 
     if(rows.length > 0){
       res.json({message: "Login Succesfull!"});
     }else{
       res.status(400).json({message: "Invalid Login"});
     }
+
+    /*
+    if(rows.length > 0){
+      res.json({message: "Login Succesfull!"});
+    }else{
+      res.status(400).json({message: "Invalid Login"});
+    }
+      */
   }catch (err){
     res.status(400).json({message: `Error: ${err}`})
+    
   }
 });
 
