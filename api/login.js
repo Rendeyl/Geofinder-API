@@ -43,5 +43,4 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-export { pool };
 export default app;

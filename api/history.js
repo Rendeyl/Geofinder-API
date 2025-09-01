@@ -14,6 +14,18 @@ app.use(cors({
   credentials: true
 }));
 
+const pool = mysql.createPool({
+  host: process.env.HOST, 
+  user: process.env.USER, 
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: Number(process.env.PORT),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  ssl: { rejectUnauthorized: false }
+})
+
 app.post("/api/history", async (req, res) => {
     const {ip, city, region, country, location, timezone, org } = req.body
     try{
