@@ -1,4 +1,4 @@
-import pkg from "pg";
+import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
@@ -14,17 +14,28 @@ app.use(cors({
   credentials: true
 }));
 
-const { Pool } = pkg;
+const pool = mysql.createPool({
+  host: process.env.HOST, 
+  user: process.env.USER, 
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: Number(process.env.PORT),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  ssl: { rejectUnauthorized: false }
+})
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  port: 5432,
-  ssl: { rejectUnauthorized: false },
-});
+async function test() {
+  try{
+        const [rows] = await pool.query("SELECT * FROM accounts");
+        console.log(rows);
+    }catch (err){
+        console.log(err);
+    }
+}
 
-app
+test()
 
+export { pool };
 export default app;
