@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import pool from "./login.js";
 
 dotenv.config();
 
@@ -11,11 +10,12 @@ app.use(express.json());
 app.use(cors({
   origin: "https://geofinder-rd.vercel.app",   
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"],
+  //allowedHeaders: ["Content-Type"],
   credentials: true
 }));
 
-app.options("*", cors());
+//app.use(cors(corsOptions));
+//app.options("*", cors(corsOptions));
 
 const pool = mysql.createPool({
   host: process.env.HOST, 
