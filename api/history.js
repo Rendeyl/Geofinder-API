@@ -14,6 +14,12 @@ app.use(cors({
   credentials: true
 }));
 
+app.options("*", cors({
+  origin: "https://geofinder-rd.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
+
 const pool = mysql.createPool({
   host: process.env.HOST, 
   user: process.env.USER, 
