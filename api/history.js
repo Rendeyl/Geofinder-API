@@ -46,7 +46,7 @@ app.get("/api/history", async (req, res) => {
   }
 });
 
-app.delete("/api/history/:id", async (req, res) => {
+app.delete("/api/history", async (req, res) => {
   const { id } = req.query.id;
 
   try {
