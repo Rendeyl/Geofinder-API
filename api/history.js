@@ -47,7 +47,7 @@ app.get("/api/history", async (req, res) => {
 });
 
 app.delete("/api/history/:id", async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query.id;
 
   try {
     const [result] = await pool.query("DELETE FROM history WHERE id = ?", [id]);
