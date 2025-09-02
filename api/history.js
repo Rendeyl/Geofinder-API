@@ -37,12 +37,22 @@ app.post("/api/history", async (req, res) => {
     }
 });
 
-app.get("/api/history/", async (req, res) => {
+app.get("/api/history", async (req, res) => {
   try{
     const [rows] = await pool.query("SELECT id, ip, city, region, country, location, timezone, org FROM history ORDER BY id DESC");
     res.json(rows);
   }catch (err){
     res.status(400).json({message: "Error"});
+  }
+});
+
+app.delete("/api/history/:id", async (req, res) => {
+  const { id } = req.params;
+  try{
+    await pool.query("DELETE FROM history WHERE id = ?", [id]);
+  res.json({ message: "Deleted successfully" });
+  }catch (err){
+     res.status(500).json({ message: "Error deleting history" });
   }
 });
 
