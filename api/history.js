@@ -11,12 +11,8 @@ app.use(express.json());
 app.use(cors({
   origin: "https://geofinder-rd.vercel.app",   
   methods: ["GET", "POST", "PUT", "DELETE"],
-  //allowedHeaders: ["Content-Type"],
   credentials: true
 }));
-
-//app.use(cors(corsOptions));
-//app.options("*", cors(corsOptions));
 
 const pool = mysql.createPool({
   host: process.env.HOST, 
@@ -39,6 +35,15 @@ app.post("/api/history", async (req, res) => {
         res.status(500).json({ message: "Error adding history" });
         console.log(err);
     }
+});
+
+app.get("/api/history/", async (req, res) => {
+  try{
+    const [rows] = await pool.query("SELECT id, ip, city, region, country, location, timezone, org FROM history ORDER BY id DESC");
+    res.json(rows);
+  }catch (err){
+    res.status(400).json({message: "Error"});
+  }
 });
 
 export default app;
