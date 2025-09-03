@@ -2,6 +2,7 @@ import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -29,10 +30,17 @@ const pool = mysql.createPool({
 app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
   try{
-    const [rows] = await pool.query("SELECT email, password FROM accounts WHERE email = ? AND password = ?", [username, password]);
+    const [rows] = await pool.query("SELECT id, email, password FROM accounts WHERE email = ? AND password = ?", [username, password]);
 
     if(rows.length > 0){
-      res.json({message: "Login Succesfull!"});
+
+      const token = jwt.sign(
+        { id: rows[0].id, email: rows[0].email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+
+      res.json({message: "Login Succesfull!", token});
     }else{
       res.status(400).json({message: "Invalid Login"});
     }
