@@ -34,7 +34,7 @@ app.post("/api/login", async (req, res) => {
 
     if(rows.length > 0){
 
-      res.json({message: "Login Succesfull!", token});
+      res.json({message: "Login Succesfull!"});
 
     }else{
       res.status(400).json({message: "Invalid Login"});
