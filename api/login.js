@@ -34,11 +34,6 @@ app.post("/api/login", async (req, res) => {
 
     if(rows.length > 0){
 
-      const token = jwt.sign(
-        { email: rows[0].email },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" }
-      );
       res.json({message: "Login Succesfull!", token});
 
     }else{
@@ -46,7 +41,7 @@ app.post("/api/login", async (req, res) => {
     }
       
   }catch (err){
-    res.status(401).json({message: `Error: ${err}`})
+    res.status(500).json({message: `Error: ${err}`})
     
   }
 });
