@@ -46,7 +46,7 @@ app.post("/api/login", async (req, res) => {
     }
       
   }catch (err){
-    res.status(400).json({message: `Error: ${err}`})
+    res.status(401).json({message: `Error: ${err}`})
     
   }
 });
