@@ -34,7 +34,13 @@ app.post("/api/login", async (req, res) => {
 
     if(rows.length > 0){
 
-      res.json({message: "Login Succesfull!"});
+      const token = jwt.sign(
+        {email: rows[0].id},
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+
+      res.json({message: "Login Succesfull!", token: token});
 
     }else{
       res.status(400).json({message: "Invalid Login"});
