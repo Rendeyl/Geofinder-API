@@ -28,7 +28,7 @@ const pool = mysql.createPool({
 })
 
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   try{
     const [rows] = await pool.query("SELECT id, email, password FROM accounts WHERE email = ? AND password = ?", [username, password]);
 
@@ -39,8 +39,8 @@ app.post("/api/login", async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
       );
-
       res.json({message: "Login Succesfull!", token});
+
     }else{
       res.status(400).json({message: "Invalid Login"});
     }
