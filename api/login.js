@@ -30,12 +30,12 @@ const pool = mysql.createPool({
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
   try{
-    const [rows] = await pool.query("SELECT id, email, password FROM accounts WHERE email = ? AND password = ?", [email, password]);
+    const [rows] = await pool.query("SELECT email, password FROM accounts WHERE email = ? AND password = ?", [email, password]);
 
     if(rows.length > 0){
 
       const token = jwt.sign(
-        { id: rows[0].id, email: rows[0].email },
+        { email: rows[0].email },
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
       );
